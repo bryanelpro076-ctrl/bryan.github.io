@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para mi niña especial ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pangolin&family=Short+Stack&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-amor: #ff4d6d;
+            --color-texto: #590d22;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            /* Aplicamos la fuente estilo Flower Child a todo el sitio */
+            font-family: 'Pangolin', cursive; 
+            background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Lluvia constante de corazones */
+        .heart-rain {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            top: -10%;
+            user-select: none;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Sobre Inicial */
+        #pantalla-sobre {
+            position: absolute;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.5s ease;
+        }
+
+        .sobre {
+            font-size: 100px;
+            animation: float 3s ease-in-out infinite;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .sobre-texto {
+            font-size: 1.8rem;
+            color: var(--color-texto);
+            margin-top: 15px;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 10px 30px;
+            border-radius: 30px;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Contenedores de Mensaje */
+        #contenedor, #celebracion {
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.92);
+            padding: 40px;
+            border-radius: 40px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 380px;
+            width: 85%;
+            transform: scale(0.9);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+            border: 3px solid white;
+        }
+
+        #contenedor.visible, #celebracion.visible {
+            transform: scale(1);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        h1 {
+            color: var(--color-amor);
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            /* Quitamos cualquier adorno que pueda causar símbolos */
+            font-weight: normal; 
+        }
+
+        p {
+            font-size: 1.2rem;
+            color: #7d4444;
+            line-height: 1.4;
+        }
+
+        /* Botones */
+        .buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 15px 25px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Pangolin', cursive;
+            font-weight: bold;
+        }
+
+        #btn-si {
+            background-color: var(--color-amor);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
+        }
+
+        #btn-no {
+            background-color: #eee;
+            color: #999;
+        }
+
+        .hidden { display: none !important; }
+        .fade-out { opacity: 0; transform: scale(0.8); pointer-events: none; }
+    </style>
+</head>
+<body>
+
+    <div class="heart-rain" id="heart-rain-container"></div>
+
+    <div id="pantalla-sobre">
+        <div class="sobre">📩</div>
+        <div class="sobre-texto">Tengo una pregunta...</div>
+    </div>
+
+    <div id="contenedor">
+        <h1>¿Quieres ser mi San Valentin?</h1>
+        <p>Eres la persona mas linda del mundo y me haces muy feliz cada dia.</p>
+        <div class="buttons">
+            <button id="btn-si">Si, acepto!</button>
+            <button id="btn-no">No</button>
+        </div>
+    </div>
+
+    <div id="celebracion" class="hidden">
+        <h1 style="font-size: 3rem;">Sabia que si!</h1>
+        <p style="font-size: 1.5rem; color: var(--color-amor);">TE AMO DEMASIADO ❤️</p>
+        <div style="font-size: 4rem; margin-top: 20px;">🌹✨💍</div>
+    </div>
+
+    <script>
+        const pantallaSobre = document.getElementById('pantalla-sobre');
+        const contenedor = document.getElementById('contenedor');
+        const celebracion = document.getElementById('celebracion');
+        const btnSi = document.getElementById('btn-si');
+        const btnNo = document.getElementById('btn-no');
+        const heartRainContainer = document.getElementById('heart-rain-container');
+
+        // Abrir sobre
+        pantallaSobre.addEventListener('click', () => {
+            pantallaSobre.classList.add('fade-out');
+            setTimeout(() => {
+                pantallaSobre.classList.add('hidden');
+                contenedor.classList.add('visible');
+            }, 500);
+        });
+
+        // Boton No que escapa
+        let sizeInc = 0;
+        btnNo.addEventListener('mouseover', () => {
+            sizeInc++;
+            const x = Math.random() * (window.innerWidth - btnNo.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btnNo.offsetHeight);
+            btnNo.style.position = "fixed";
+            btnNo.style.left = x + "px";
+            btnNo.style.top = y + "px";
+            
+            // Boton Si crece
+            btnSi.style.transform = `scale(${1 + (sizeInc * 0.15)})`;
+        });
+
+        // Al aceptar
+        btnSi.addEventListener('click', () => {
+            contenedor.classList.remove('visible');
+            setTimeout(() => {
+                contenedor.classList.add('hidden');
+                celebracion.classList.remove('hidden');
+                setTimeout(() => celebracion.classList.add('visible'), 50);
+                rainSpeed = 60; // Lluvia mas rapida al final
+            }, 500);
+        });
+
+        // Lluvia constante
+        const emojis = ['❤️', '💖', '✨', '🌸', '💕'];
+        let rainSpeed = 300;
+
+        function createHeart(init = false) {
+            const h = document.createElement('div');
+            h.classList.add('heart');
+            h.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            h.style.left = Math.random() * 100 + 'vw';
+            h.style.fontSize = Math.random() * 15 + 15 + 'px';
+            if(init) h.style.top = Math.random() * 100 + 'vh';
+            
+            const dur = Math.random() * 3 + 2;
+            h.style.animationDuration = dur + 's';
+            
+            heartRainContainer.appendChild(h);
+            setTimeout(() => h.remove(), dur * 1000);
+        }
+
+        // Lluvia inicial
+        for(let i=0; i<15; i++) createHeart(true);
+
+        // Bucle de lluvia
+        function startRain() {
+            createHeart();
+            setTimeout(startRain, rainSpeed);
+        }
+        startRain();
+    </script>
+</body>
+</html>
